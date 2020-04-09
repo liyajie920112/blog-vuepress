@@ -1,0 +1,20 @@
+{
+  "name": "blog-vuepress",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/liyajie920112/blog-vuepress.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/liyajie920112/blog-vuepress/issues"
+  },
+  "homepage": "https://github.com/liyajie920112/blog-vuepress#readme"
+}
