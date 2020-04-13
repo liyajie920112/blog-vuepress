@@ -1,6 +1,6 @@
 ---
 home: true
-heroImage: /logo.jpg
+heroImage: /hero.jpg
 heroText: 
 tagline: 
 actionText: Let's go →

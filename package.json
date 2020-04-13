@@ -17,6 +17,6 @@
     "url": "https://github.com/liyajie920112/blog-vuepress/issues"
   },
   "homepage": "https://github.com/liyajie920112/blog-vuepress#readme",
-  "devDependencies": {
-  }
+  "devDependencies": {},
+  "dependencies": {}
 }
