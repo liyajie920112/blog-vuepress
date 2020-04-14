@@ -1,5 +1,5 @@
-$contentClass = '.lyj-theme-content'
-@require './code'
+@require './config'
+@require './arrow'
 
 html, body
   padding 0
@@ -13,97 +13,42 @@ body
   font-size 16px
   color $textColor
 
-.navbar
+.lyj-page
+  padding-left $sidebarWidth
+
+.lyj-navbar
   position fixed
+  z-index 20
   top 0
   left 0
-  width 100%
-  height: $navbarHeight
-  border-bottom 1px solid $borderColor
+  right 0
+  height $navbarHeight
   background-color #fff
-  z-index 99
   box-sizing border-box
+  border-bottom 1px solid $borderColor
+
+.sidebar-mask
+  position fixed
+  z-index 9
+  top 0
+  left 0
+  width 100vw
+  height 100vh
+  display none
 
 .sidebar
-  position fixed
-  top $navbarHeight
-  bottom 0
-  width $sidebarWidth
-  border-right 1px solid $borderColor
+  font-size 16px
   background-color #fff
-  z-index 98
-  padding-top 3rem
-  ul
-    list-style none
-    padding 0
-    margin 0
-  .sidebar-group
-    .sidebar-link
-      color $textColor
-    li:hover .sidebar-link
-      color $accentColor
-    .group-title
-      padding-left 1rem
-      .sidebar-link
-        padding .35rem 1rem .35rem 1.25rem
-        display inline-block
-    .sub-sidebar-group
-      padding-left 1rem
-      .sidebar-item
-        padding-left 1rem
-        .sidebar-link
-          padding .35rem 1rem .35rem 1.25rem
-          display inline-block
-          font-size 0.9rem
-          width 100%
-
-.theme-container
-  .content
-    padding-left $sidebarWidth
-    &.is-list
-      padding-left 0
-      padding-top $navbarHeight + 1rem
-    .page-list, {$contentClass}
-      max-width $contentWidth
-      padding 2rem 2.5rem
-      margin 0 auto
-      .post
-        border-bottom 2px solid $accentColor
-        margin-bottom 50px
-        padding 16px 0
-        h1
-          margin 0
-          font-size 1.5rem
-
-h1, h2, h3, h4, h5, h6
-  font-weight 600
-  line-height 1.25
-
-  {$contentClass}:not(.custom) > &
-    margin-top (0.5rem - $navbarHeight)
-    padding-top ($navbarHeight + 1rem)
-    margin-bottom 0
-
-    &:first-child
-      margin-top -1.5rem
-      margin-bottom 1rem
-
-      + p, + pre, + .custom-block
-        margin-top 2rem
-
-  &:hover .header-anchor
-    opacity: 1
-    
-h1
-  font-size 2.2rem
-
-h2
-  font-size 1.65rem
-  padding-bottom .3rem
-  border-bottom 1px solid $borderColor
-
-h3
-  font-size 1.35rem
+  width $sidebarWidth
+  position fixed
+  z-index 10
+  margin 0
+  top $navbarHeight
+  left 0
+  bottom 0
+  box-sizing border-box
+  border-right 1px solid $borderColor
+  overflow-y auto
 
 {$contentClass}:not(.custom)
   // @extend $wrapper
@@ -160,6 +105,36 @@ ul, ol
 strong
   font-weight 600
 
+h1, h2, h3, h4, h5, h6
+  font-weight 600
+  line-height 1.25
+
+  {$contentClass}:not(.custom) > &
+    margin-top (0.5rem - $navbarHeight)
+    padding-top ($navbarHeight + 1rem)
+    margin-bottom 0
+
+    &:first-child
+      margin-top -1.5rem
+      margin-bottom 1rem
+
+      + p, + pre, + .custom-block
+        margin-top 2rem
+
+  &:hover .header-anchor
+    opacity: 1
+
+h1
+  font-size 2.2rem
+
+h2
+  font-size 1.65rem
+  padding-bottom .3rem
+  border-bottom 1px solid $borderColor
+
+h3
+  font-size 1.35rem
+
 a.header-anchor
   font-size 0.85em
   float left
@@ -196,3 +171,27 @@ tr
 th, td
   border 1px solid #dfe2e5
   padding .6em 1em
+
+.theme-container
+  &.sidebar-open
+    .sidebar-mask
+      display: block
+
+  &.no-navbar
+    {$contentClass}:not(.custom) > h1, h2, h3, h4, h5, h6
+      margin-top 1.5rem
+      padding-top 0
+
+    .sidebar
+      top 0
+
+
+@media (min-width: ($MQMobile + 1px))
+  .theme-container.no-sidebar
+    .sidebar
+      display none
+
+    .page
+      padding-left 0
+
+@require './mobile'

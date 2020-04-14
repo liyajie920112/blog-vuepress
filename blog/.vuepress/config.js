@@ -1,6 +1,9 @@
 module.exports = {
   title: 'LiYajie',
   description: 'LiYajie技术小栈',
+  markdown: {
+    lineNumbers: true
+  },
   themeConfig: {
     logo: '/logo.jpg',
     sidebar: 'auto',
