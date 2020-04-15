@@ -3,7 +3,10 @@
     <div class="post" v-for="item in blogs" :key="item.key">
       <NavLink :link="item.path"><h1>{{ item.title }}</h1></NavLink>
       <p v-if="item.frontmatter.summary">{{ item.frontmatter.summary }}</p>
-
+      <div class="tip">
+        <span class="last-update-time">{{ item.lastUpdated }}</span>
+        <span class="blog-tags">{{ item.frontmatter.tags || 'JS' }}</span>
+      </div>
     </div>
   </article>
 </template>
