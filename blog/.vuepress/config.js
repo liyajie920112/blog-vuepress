@@ -1,8 +1,10 @@
 const { formatDate } = require('./utils')
+const categoryPlugin = require('./plugins/category/index')
 module.exports = {
   title: 'LiYajie',
   description: 'LiYajie技术小栈',
   plugins: [
+    [categoryPlugin],
     ['@vuepress/search', {
       searchMaxSuggestions: 10
     }],

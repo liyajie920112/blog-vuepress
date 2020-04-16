@@ -35,7 +35,7 @@ export default {
   },
   mounted() {
     console.log('this.$site', this)
-    console.log('--', this.sidebarItems)
+    console.log('--', this.$categorys)
   }
 }
 </script>

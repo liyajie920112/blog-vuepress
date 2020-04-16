@@ -1,7 +1,7 @@
 <template>
   <div class="dropdown">
     <div class="dropdown-item" v-for="item in nav" :key="item.text">
-      <NavLink v-if="item.link" :link="item.link">{{ item.text }}</NavLink>
+      <NavLink v-if="item.link" :link="item.link">{{ item.text.toUpperCase() }}</NavLink>
       <div v-else class="dropdown-wrapper">
         <div class="dropdown-title">{{ item.text }}</div>
         <ul v-if="item.items" class="menu-children">
@@ -22,7 +22,7 @@ export default {
   },
   computed: {
     nav() {
-      return this.$themeConfig.nav
+      return this.$categorys
     }
   }
 }
