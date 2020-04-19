@@ -1,19 +1,18 @@
 <template>
   <div class="theme-container lyj-theme-container">
     <BaseLayout />
-    <main class="content" :class="{ 'is-list': isList }">
-      <PageList />
+    <Sidebar :items="sidebarItems" />
+    <main class="content">
+      <Content class="lyj-theme-content" />
     </main>
   </div>
 </template>
 
 <script>
-import PageList from '@theme/components/PageList'
 import Sidebar from '@theme/components/Sidebar'
 import { resolveSidebarItems } from '../util'
 export default {
   components: {
-    PageList,
     Sidebar
   },
   computed: {

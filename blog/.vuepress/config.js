@@ -4,7 +4,18 @@ module.exports = {
   title: 'LiYajie',
   description: 'LiYajie技术小栈',
   plugins: [
-    [categoryPlugin],
+    [categoryPlugin, {
+      dirs: [{
+        id: 'posts',
+        dirname: 'posts',
+        path: '/',
+        layout: 'List'
+      }], // 博客目录
+      category: [{
+        text: 'TAG',
+        link: '/tag/'
+      }]
+    }],
     ['@vuepress/search', {
       searchMaxSuggestions: 10
     }],
@@ -13,10 +24,6 @@ module.exports = {
       '@vuepress/last-updated',
       {
         transformer: (timestamp, lang) => {
-          // 不要忘了安装 moment
-          // const moment = require('moment')
-          // moment.locale(lang)
-          // return moment(timestamp).fromNow()
           return formatDate(timestamp)
         }
       }

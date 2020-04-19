@@ -1,7 +1,11 @@
 const fs = require('fs')
 const { resolve } = require('path')
+const { getCategorys, injectApi } = require('./utils')
+const { handlerOptions } = require('./node/handlerOptions')
 
 module.exports = (options = {}, ctx) => {
+  injectApi(ctx)
+  const { extPages, postPages } = handlerOptions(options, ctx)
   return {
     name: 'blog-category',
     enhanceAppFiles:[
@@ -9,14 +13,13 @@ module.exports = (options = {}, ctx) => {
     ],
     async ready() {
       const { pages, sourceDir } = ctx
-      const categorys = []
-      // 读取文件夹
-      const postsPath = sourceDir + '/posts'
-      const c = require(postsPath + '/config.js')
-      console.log('c', c)
+      const categorys = getCategorys(options, ctx)
       ctx._map = {
-        $categorys: c.nav.map(a => ({ ...a, link: '/posts' + a.link }))
+        $categorys: categorys
       }
+
+      // 添加页面
+      await Promise.all(extPages.map(async page => ctx.addPage(page)))
     },
     async clientDynamicModules() {
       return [{
@@ -24,14 +27,19 @@ module.exports = (options = {}, ctx) => {
         content: `export default ${JSON.stringify(ctx._map, null, 2)}`
       }]
     },
-    extendPageData ($page) {
-      // const { path } = $page
-      // if (path.includes('_')) {
-      //   const paths = $page.path.split('_')
-      //   const lastIndex = paths[0].lastIndexOf('/')
-      //   $page.path = paths[0].slice(0, lastIndex) + '/' + paths[1]
-      // }
-      // const { transformer, dateOptions } = options
+    extendPageData (pageCtx) {
+      postPages.forEach(item => {
+        const { filter, data = {}, frontmatter = {} } = item
+        const { frontmatter: rawFrontmatter } = pageCtx
+        if (filter(pageCtx)) {
+          Object.keys(frontmatter).forEach(key => {
+            if (!rawFrontmatter[key]) {
+              rawFrontmatter[key] = frontmatter[key]
+            }
+          })
+          Object.assign(pageCtx, data);
+        }
+      })
     }
   }
 }
