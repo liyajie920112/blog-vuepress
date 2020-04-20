@@ -50,7 +50,7 @@ module.exports = (options = {}, ctx) => {
       const issues = await rp({
         uri: 'https://api.github.com/repos/liyajie920112/blog-vuepress/issues',
         qs: {
-          access_token: '8a43d4618df4164730776116c82d9468d4cde86f'
+          access_token: '860063a61bae5312f426f891d5e8a27817617024'
         },
         headers: {
           'User-Agent': 'Request-Promise'
