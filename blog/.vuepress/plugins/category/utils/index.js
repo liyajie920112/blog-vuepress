@@ -14,7 +14,7 @@ exports.getCategorys = (options, ctx) => {
       if (stat.isDirectory()) {
         categorys.push({
           text: dir,
-          link: `${item.dirname}/${dir}/`
+          link: `/category/${dir}/`
         })
       }
     })

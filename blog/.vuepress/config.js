@@ -9,6 +9,7 @@ module.exports = {
         id: 'posts',
         dirname: 'posts',
         path: '/',
+        categoryLayout: 'List',
         layout: 'List'
       }], // 博客目录
       category: [{

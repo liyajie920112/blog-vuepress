@@ -16,8 +16,9 @@ exports.handlerOptions = (options, ctx) => {
   // extPages
   const extPages = []
   const postPages = []
+  const categoryPages = []
   for (const dir of dirs) {
-    const { id, path: indexPath, layout: indexLayout, itemLayout = 'Post', dirname } = dir
+    const { id, path: indexPath, layout: indexLayout, categoryLayout = 'List', itemLayout = 'Post', dirname } = dir
     const title = id
 
     if (!indexPath) {
@@ -29,7 +30,8 @@ exports.handlerOptions = (options, ctx) => {
       frontmatter: {
         // Set layout for index page.
         layout: ctx.getLayout(indexLayout),
-        title
+        title,
+        category: dirname
       },
       meta: {
         pid: id,
@@ -39,11 +41,8 @@ exports.handlerOptions = (options, ctx) => {
 
     postPages.push({
       filter({ regularPath }) {
-        const regex = new RegExp(`^/${dirname}/page/\\d+/`);
         return (
-          Boolean(regularPath) &&
           regularPath !== indexPath &&
-          !regex.test(regularPath) &&
           regularPath.startsWith(`/${dirname}/`)
         );
       },
@@ -56,10 +55,29 @@ exports.handlerOptions = (options, ctx) => {
         id
       }
     })
+
+    categoryPages.push({
+      filter({ regularPath }) {
+        return (
+          regularPath !== indexPath &&
+          regularPath.startsWith(`/category/${dirname}/`)
+        )
+      },
+      frontmatter: {
+        layout: ctx.getLayout(categoryLayout, 'Post'),
+        // permalink: itemPermalink,
+      },
+      data: {
+        pid: id,
+        id
+      }
+    })
+
   }
 
   return {
     extPages,
-    postPages
+    postPages,
+    categoryPages
   }
 }

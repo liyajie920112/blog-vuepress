@@ -2,7 +2,7 @@
   <div class="theme-container lyj-theme-container">
     <BaseLayout />
     <main class="content" :class="{ 'is-list': isList }">
-      <PageList />
+      <Content />
     </main>
   </div>
 </template>

@@ -5,7 +5,7 @@ const { handlerOptions } = require('./node/handlerOptions')
 
 module.exports = (options = {}, ctx) => {
   injectApi(ctx)
-  const { extPages, postPages } = handlerOptions(options, ctx)
+  const { extPages, postPages, categoryPages } = handlerOptions(options, ctx)
   return {
     name: 'blog-category',
     enhanceAppFiles:[
@@ -28,7 +28,7 @@ module.exports = (options = {}, ctx) => {
       }]
     },
     extendPageData (pageCtx) {
-      postPages.forEach(item => {
+      [...postPages, ...categoryPages].forEach(item => {
         const { filter, data = {}, frontmatter = {} } = item
         const { frontmatter: rawFrontmatter } = pageCtx
         if (filter(pageCtx)) {
@@ -37,9 +37,35 @@ module.exports = (options = {}, ctx) => {
               rawFrontmatter[key] = frontmatter[key]
             }
           })
-          Object.assign(pageCtx, data);
+          Object.assign(pageCtx, data)
         }
       })
+    },
+    async additionalPages () {
+      // 注意 VuePress 没有任何内置的请求库，
+      // 你需要自己安装它。
+      const rp = require('request-promise')
+      // const content = await rp('https://raw.githubusercontent.com/vuejs/vuepress/master/CHANGELOG.md')
+      // const content = await rp('https://raw.githubusercontent.com/yygmind/blogs/master/vue3-compile.md')
+      const issues = await rp({
+        uri: 'https://api.github.com/repos/liyajie920112/blog-vuepress/issues',
+        qs: {
+          access_token: '8a43d4618df4164730776116c82d9468d4cde86f'
+        },
+        headers: {
+          'User-Agent': 'Request-Promise'
+        },
+        json: true
+      })
+      const pages = []
+      issues.forEach((item, index) => {
+        pages.push({
+          path: `/blog/${index}`,
+          content: item.body,
+          category: 'blog'
+        })
+      })
+      return pages
     }
   }
 }
