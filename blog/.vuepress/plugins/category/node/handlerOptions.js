@@ -15,10 +15,9 @@ exports.handlerOptions = (options, ctx) => {
 
   // extPages
   const extPages = []
-  const postPages = []
-  const categoryPages = []
+  const postsPages = []
   for (const dir of dirs) {
-    const { id, path: indexPath, layout: indexLayout, categoryLayout = 'List', itemLayout = 'Post', dirname } = dir
+    const { id, path: indexPath, layout: indexLayout, dirname } = dir
     const title = id
 
     if (!indexPath) {
@@ -39,45 +38,27 @@ exports.handlerOptions = (options, ctx) => {
       }
     })
 
-    postPages.push({
+    postsPages.push({
       filter({ regularPath }) {
         return (
           regularPath !== indexPath &&
           regularPath.startsWith(`/${dirname}/`)
-        );
-      },
-      frontmatter: {
-        layout: ctx.getLayout(itemLayout, 'Post'),
-        // permalink: itemPermalink,
-      },
-      data: {
-        pid: id,
-        id
-      }
-    })
-
-    categoryPages.push({
-      filter({ regularPath }) {
-        return (
-          regularPath !== indexPath &&
-          regularPath.startsWith(`/category/${dirname}/`)
         )
       },
       frontmatter: {
-        layout: ctx.getLayout(categoryLayout, 'Post'),
+        layout: ctx.getLayout(indexLayout, 'Layout'),
         // permalink: itemPermalink,
       },
       data: {
         pid: id,
-        id
+        id,
+        prePath: `/${dirname}`
       }
     })
-
   }
 
   return {
     extPages,
-    postPages,
-    categoryPages
+    postsPages
   }
 }

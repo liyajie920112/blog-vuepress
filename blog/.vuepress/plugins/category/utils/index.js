@@ -4,23 +4,32 @@ const fs = require('fs')
  */
 exports.getCategorys = (options, ctx) => {
   const { sourceDir } = ctx
-  const { dirs, category } = options
+  const { dirs } = options
   const categorys = []
   dirs.forEach(item => {
     const categoryPath = `${sourceDir}/${item.dirname || 'posts'}`
     const _dirs = fs.readdirSync(categoryPath)
+    const categoryObj = {
+      text: item.categoryText,
+      link: `${item.path}/`,
+      children: []
+    }
     _dirs.forEach(dir => {
       const stat = fs.statSync(`${categoryPath}/${dir}`)
       if (stat.isDirectory()) {
-        categorys.push({
+        categoryObj.children.push({
           text: dir,
-          link: `/category/${dir}/`
+          link: `${item.path}/${dir}/`
         })
       }
     })
+    if (categoryObj.children.length === 0) {
+      delete categoryObj.children
+    }
+    categorys.push(categoryObj)
   })
 
-  return categorys.concat(category)
+  return categorys
 }
 
 exports.injectApi = (ctx) => {

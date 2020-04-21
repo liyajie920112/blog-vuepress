@@ -1,8 +1,9 @@
 <template>
   <div class="theme-container lyj-theme-container">
     <BaseLayout />
-    <main class="content" :class="{ 'is-list': isList }">
-      <Content />
+    <Sidebar :items="sidebarItems" />
+    <main class="content">
+      <Content class="lyj-theme-content" />
     </main>
   </div>
 </template>

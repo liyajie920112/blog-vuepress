@@ -8,14 +8,13 @@ module.exports = {
       dirs: [{
         id: 'posts',
         dirname: 'posts',
-        path: '/',
-        categoryLayout: 'List',
-        layout: 'List'
-      }], // 博客目录
-      category: [{
-        text: 'TAG',
-        link: '/tag/'
-      }]
+        path: '/blog',
+        categoryText: 'Blog',
+        layout: 'Layout'
+      }],
+      pathMap: {
+        '/posts': '/blog'
+      }
     }],
     ['@vuepress/search', {
       searchMaxSuggestions: 10

@@ -4,8 +4,9 @@ const { getCategorys, injectApi } = require('./utils')
 const { handlerOptions } = require('./node/handlerOptions')
 
 module.exports = (options = {}, ctx) => {
+  const { pathMap } = options
   injectApi(ctx)
-  const { extPages, postPages, categoryPages } = handlerOptions(options, ctx)
+  const { extPages, postsPages } = handlerOptions(options, ctx)
   return {
     name: 'blog-category',
     enhanceAppFiles:[
@@ -28,44 +29,23 @@ module.exports = (options = {}, ctx) => {
       }]
     },
     extendPageData (pageCtx) {
-      [...postPages, ...categoryPages].forEach(item => {
+      [...postsPages].forEach(item => {
         const { filter, data = {}, frontmatter = {} } = item
         const { frontmatter: rawFrontmatter } = pageCtx
-        if (filter(pageCtx)) {
+        if (filter(pageCtx, pathMap)) {
           Object.keys(frontmatter).forEach(key => {
             if (!rawFrontmatter[key]) {
               rawFrontmatter[key] = frontmatter[key]
             }
           })
+          // 如果需要修改path前缀, 则需要配置pathMap
+          if (pathMap && pathMap[data.prePath]) {
+            const reg = new RegExp(`^${data.prePath}`)
+            pageCtx.path = pageCtx.path.replace(reg, pathMap[data.prePath])
+          }
           Object.assign(pageCtx, data)
         }
       })
-    },
-    async additionalPages () {
-      // 注意 VuePress 没有任何内置的请求库，
-      // 你需要自己安装它。
-      const rp = require('request-promise')
-      // const content = await rp('https://raw.githubusercontent.com/vuejs/vuepress/master/CHANGELOG.md')
-      // const content = await rp('https://raw.githubusercontent.com/yygmind/blogs/master/vue3-compile.md')
-      const issues = await rp({
-        uri: 'https://api.github.com/repos/liyajie920112/blog-vuepress/issues',
-        qs: {
-          access_token: '860063a61bae5312f426f891d5e8a27817617024'
-        },
-        headers: {
-          'User-Agent': 'Request-Promise'
-        },
-        json: true
-      })
-      const pages = []
-      issues.forEach((item, index) => {
-        pages.push({
-          path: `/blog/${index}`,
-          content: item.body,
-          category: 'blog'
-        })
-      })
-      return pages
     }
   }
 }
