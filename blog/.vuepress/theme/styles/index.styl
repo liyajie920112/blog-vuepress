@@ -39,24 +39,57 @@ body
     padding 0
     margin 0
   .sidebar-group
+    .group-title
+      cursor pointer
+      .sidebar-link
+        position relative
+        display inline-block
+      .collaps-arrow
+        position absolute
+        content ''
+        right -2px
+        top 50%
+        border 6px solid transparent
+        border-left-width 6px
+        border-top-width 4px
+        border-bottom-width 4px
+        border-left-color #ddd
+        transform translate3d(0, -50%, 0)
+        transition all .3s
+        &.down
+          transform rotateZ(90deg)
     .sidebar-link
       color $textColor
-    li:hover .sidebar-link
-      color $accentColor
-    .group-title
-      padding-left 1rem
-      .sidebar-link
-        padding .35rem 1rem .35rem 1.25rem
-        display inline-block
+      display block
+      padding .35rem 1rem .35rem 1.25rem
+      padding-left 2rem
     .sub-sidebar-group
-      padding-left 1rem
       .sidebar-item
-        padding-left 1rem
+        padding-left 2rem
         .sidebar-link
           padding .35rem 1rem .35rem 1.25rem
           display inline-block
           font-size 0.9rem
           width 100%
+          &:hover, &.active, &.router-link-active
+            color $accentColor
+        .sidebar-sub-headers
+          .sidebar-link
+            padding-left 0
+    // .group-title
+    //   padding-left 1rem
+    //   cursor pointer
+    //   .sidebar-link
+    //     padding .35rem 1rem .35rem 1.25rem
+    //     display inline-block
+    // .sub-sidebar-group
+    //   padding-left 1.5rem
+    //   .sidebar-item
+    //     .sidebar-link
+    //       padding .35rem 1rem .35rem 1.25rem
+    //       display inline-block
+    //       font-size 0.9rem
+    //       width 100%
 
 .theme-container
   .content

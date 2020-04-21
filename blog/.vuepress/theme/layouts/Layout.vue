@@ -35,8 +35,6 @@ export default {
   mounted() {
     console.log('this.$site', this)
     console.log('--', this.$categorys)
-    const category = this.$categorys.find(a => a.type === this.$frontmatter.type)
-    console.log('category', category)
   }
 }
 </script>
