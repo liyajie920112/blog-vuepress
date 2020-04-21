@@ -48,6 +48,8 @@ exports.handlerOptions = (options, ctx) => {
       frontmatter: {
         layout: ctx.getLayout(indexLayout, 'Layout'),
         // permalink: itemPermalink,
+        pid: id,
+        id
       },
       data: {
         pid: id,

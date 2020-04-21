@@ -1,4 +1,3 @@
-const fs = require('fs')
 const { resolve } = require('path')
 const { getCategorys, injectApi } = require('./utils')
 const { handlerOptions } = require('./node/handlerOptions')
@@ -13,7 +12,6 @@ module.exports = (options = {}, ctx) => {
       resolve(__dirname, 'enhanceAppFiles.js')
     ],
     async ready() {
-      const { pages, sourceDir } = ctx
       const categorys = getCategorys(options, ctx)
       ctx._map = {
         $categorys: categorys
@@ -29,7 +27,7 @@ module.exports = (options = {}, ctx) => {
       }]
     },
     extendPageData (pageCtx) {
-      [...postsPages].forEach(item => {
+      postsPages.forEach(item => {
         const { filter, data = {}, frontmatter = {} } = item
         const { frontmatter: rawFrontmatter } = pageCtx
         if (filter(pageCtx, pathMap)) {

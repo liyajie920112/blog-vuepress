@@ -1,7 +1,7 @@
 <template>
   <div class="theme-container lyj-theme-container">
     <BaseLayout />
-    <Sidebar :items="sidebarItems" />
+    <Sidebar :items="sidebarItems" :categorys="categorys" />
     <main class="content">
       <Content class="lyj-theme-content" />
     </main>
@@ -9,12 +9,10 @@
 </template>
 
 <script>
-import PageList from '@theme/components/PageList'
 import Sidebar from '@theme/components/Sidebar'
 import { resolveSidebarItems } from '../util'
 export default {
   components: {
-    PageList,
     Sidebar
   },
   computed: {
@@ -29,10 +27,16 @@ export default {
         this.$localePath
       )
     },
+    categorys() {
+      const c = this.$categorys.find(a => a.id === this.$frontmatter.pid)
+      return c ? c.children : []
+    }
   },
   mounted() {
     console.log('this.$site', this)
     console.log('--', this.$categorys)
+    const category = this.$categorys.find(a => a.type === this.$frontmatter.type)
+    console.log('category', category)
   }
 }
 </script>
